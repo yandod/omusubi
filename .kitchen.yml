@@ -11,3 +11,4 @@ suites:
   - name: default
     run_list:
       - recipe[omusubi]
+    #attributes: {docroot: "/var/www/"}
