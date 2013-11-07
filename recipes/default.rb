@@ -2,7 +2,7 @@ execute "apt-get" do
   command "apt-get update"
 end
 
-packages = %w{git subversion nginx php5 php5-mysql  php5-pgsql php5-curl php5-cli php5-fpm php-pear mysql-server postgresql curl imagemagick php5-imagick}
+packages = %w{git subversion nginx php5 php5-mysql  php5-pgsql php5-curl php5-mcrypt php5-cli php5-fpm php-pear mysql-server postgresql curl imagemagick php5-imagick}
 
 packages.each do |pkg|
   package pkg do
@@ -29,6 +29,11 @@ end
 template "/etc/php5/fpm/pool.d/www2.conf" do
   mode 0644
   source "www2.conf.erb"
+end
+
+template "/etc/php5/cli/conf.d/timezone.ini" do
+  mode 0644
+  source "timezone.ini.erb"
 end
 
 service 'apache2' do
