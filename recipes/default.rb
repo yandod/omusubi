@@ -26,6 +26,10 @@ template "/etc/nginx/conf.d/php-fpm.conf" do
   source "php-fpm.conf.erb"
 end
 
+file "/etc/php5/fpm/pool.d/www.conf" do
+  action :delete
+end
+
 template "/etc/php5/fpm/pool.d/www2.conf" do
   mode 0644
   source "www2.conf.erb"
