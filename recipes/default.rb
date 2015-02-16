@@ -2,7 +2,7 @@ execute "apt-get" do
   command "apt-get update"
 end
 
-packages = %w{git subversion nginx php5 php5-mysql  php5-pgsql php5-curl php5-mcrypt php5-cli php5-fpm php-pear mysql-server postgresql curl imagemagick php5-imagick php5-intl php5-sqlite}
+packages = %w{git subversion nginx php5 php5-mysql  php5-pgsql php5-curl php5-mcrypt php5-cli php5-fpm php-pear mysql-server postgresql curl imagemagick php5-imagick php5-common php5-intl php5-sqlite}
 
 packages.each do |pkg|
   package pkg do
@@ -11,14 +11,14 @@ packages.each do |pkg|
   end
 end
 
-execute "phpunit-install" do
-  command "pear config-set auto_discover 1; pear install pear.phpunit.de/PHPUnit"
-  not_if { ::File.exists?("/usr/bin/phpunit")}
-end
-
 execute "composer-install" do
   command "curl -sS https://getcomposer.org/installer | php ;mv composer.phar /usr/local/bin/composer"
   not_if { ::File.exists?("/usr/local/bin/composer")}
+end
+
+execute "phpunit-install" do
+  command "composer global require 'phpunit/phpunit=4.5.*'"
+  not_if { ::File.exists?("/usr/bin/phpunit")}
 end
 
 template "/etc/nginx/conf.d/php-fpm.conf" do
